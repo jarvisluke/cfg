@@ -4,24 +4,19 @@ Luke Jarvis
 """
 import random
 
-rules = {
-    'S': ('NP VP',), 'NP': ('Det N', 'Det Adj N'), 'VP': ('V NP', 'V Adv Pre NP', 'V'), 'Det': ('the', 'a', 'my'),
-    'N': ('dog', 'cat', 'bird'), 'V': ('chased', 'ate', 'sang', 'barked'), 'Adj': ('fat', 'lazy', 'red'),
-    'Adv': ('quickly', 'quietly', 'loudly', 'rudely'), 'Pre': ('after', 'around', 'at')
-}
-
 
 class Tree:
 
     def __init__(self, key: str) -> None:
         self.key = key
         self.nodes = []
+        self.rules = ''
 
     def add_node(self, key: str) -> None:
-        self.nodes.append(Tree(key))
+        self.nodes.append(Tree(key))    
 
 
-def build_tree(node: Tree) -> None:
+def build_tree(node: Tree, rules: dict) -> None:
     key = node.key
     # checks if node's rule is in rules
     if key in rules:
@@ -33,7 +28,7 @@ def build_tree(node: Tree) -> None:
             node.add_node(child)
     for child in node.nodes:
         # recursive step build_tree for each child
-        build_tree(child)
+        build_tree(child, rules)
 
 
 # calls _generate and returns generated sentence as a string
@@ -63,6 +58,11 @@ def random_generator(root: Tree, interations: int) -> None:
         print(' '.join(sentence).capitalize() + '.')
 
 
+rule_dict = {
+    'S': ('NP VP',), 'NP': ('Det N', 'Det Adj N'), 'VP': ('V NP', 'V Adv Pre NP', 'V'), 'Det': ('the', 'a', 'my'),
+    'N': ('dog', 'cat', 'bird'), 'V': ('chased', 'ate', 'sang', 'barked'), 'Adj': ('fat', 'lazy', 'red'),
+    'Adv': ('quickly', 'quietly', 'loudly', 'rudely'), 'Pre': ('after', 'around', 'at')
+}
 rule_tree = Tree('S')
-build_tree(rule_tree)
+build_tree(rule_tree, rule_dict)
 random_generator(rule_tree, 10)
