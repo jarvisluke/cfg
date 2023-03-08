@@ -50,18 +50,18 @@ def sentence_generator(root: Tree, interations: int) -> None:
         else:
             return True
 
-    print('\nRandomly generated sentences:')
+    print('Randomly generated sentences:')
     for i in range(interations):
         fill_terminals(root, sentence := [])
         # formats sentence as string
         print(' '.join(sentence).capitalize() + '.')
 
 
-rule_dict = {
+cfg: dict[str, tuple] = {
     'S': ('NP VP',), 'NP': ('Det N', 'Det Adj N'), 'VP': ('V NP', 'V Adv Pre NP', 'V'), 'Det': ('the', 'a', 'my'),
     'N': ('dog', 'cat', 'bird'), 'V': ('chased', 'ate', 'sang', 'barked'), 'Adj': ('fat', 'lazy', 'red'),
     'Adv': ('quickly', 'quietly', 'loudly', 'rudely'), 'Pre': ('after', 'around', 'at')
 }
 rule_tree = Tree('S')
-build_tree(rule_tree, rule_dict)
+build_tree(rule_tree, cfg)
 sentence_generator(rule_tree, 10)
